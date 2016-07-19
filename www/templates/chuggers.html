@@ -1,0 +1,23 @@
+<ion-pane>
+    <ion-header-bar class="bar-calm">
+        <h1 class="title">Chuggers</h1>
+    </ion-header-bar>
+
+    <div class="list has-header">
+        <label class="item item-input">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="search" placeholder="Search Chuggers" ng-model="query">
+        </label>
+    </div>
+
+    <ion-content class="has-subheader" ng-controller="ChuggersCtrl">
+        <ion-list>
+            <ion-item class="item-thumbnail-left item-text-wrap" href="#/tab/chuggers/{{item.shortname}}" ng-repeat="item in allUsers | filter:query">
+                <img src="http://placehold.it/100x100" alt="photo">
+                <h2>{{ item.name }}</h2>
+                <h3>{{ item.reknown }}</h3>
+                <p>{{ item.bio | limitTo:160 }}{{item.bio.length > 150 ? '...' : '' }}</p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-pane>

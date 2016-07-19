@@ -23,7 +23,50 @@ angular.module('chuggers', ['ionic', 'firebase'])
   });
 })
 
-.controller('ListCtrl', ['$scope', '$http', function($scope, $http) {
+.config(function($stateProvider, $urlRouterProvider) {
+    $stateProvider
+        .state('tabs', {
+            url: '/tab',
+            abstract: true,
+            templateUrl: 'templates/tabs.html'
+        })
+        .state('tabs.chuggers', {
+            url: '/chuggers',
+            views : {
+                'chuggers-tab' : {
+                    templateUrl: 'templates/chuggers.html',
+                    controller: 'ChuggersCtrl'
+                }
+            }
+        })
+        .state('tabs.detail', {
+            url: '/chuggers/:chuggerId',
+            views : {
+                'chuggers-tab' : {
+                    templateUrl: 'templates/detail.html',
+                    controller: 'ChuggersCtrl'
+                }
+            }
+        })
+        .state('tabs.profile', {
+            url: '/profile',
+            views : {
+                'profile-tab' : {
+                    templateUrl : 'templates/profile.html',
+                    controller: 'ProfileCtrl'
+                }
+            }
+        })
+        $urlRouterProvider.otherwise('/tab/chuggers');
+})
+
+.controller('ChuggersCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
+    $http.get('js/data.json').success(function(data) {
+        $scope.allUsers = data;
+        $scope.whichChugger = $state.params.chuggerId;
+    });
+}])
+.controller('ProfileCtrl', ['$scope', '$http', function($scope, $http) {
     $http.get('js/data.json').success(function(data) {
         $scope.allUsers = data;
     });
