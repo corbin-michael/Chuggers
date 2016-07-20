@@ -57,6 +57,11 @@ angular.module('chuggers', ['ionic', 'firebase'])
                 }
             }
         })
+        .state('tabs.create-user', {
+            url: '/create-user',
+            templateUrl: 'templates/create-user.html',
+            controller: 'CreateUserCtrl'
+        })
         $urlRouterProvider.otherwise('/tab/chuggers');
 })
 
