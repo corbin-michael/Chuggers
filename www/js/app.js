@@ -62,6 +62,11 @@ angular.module('chuggers', ['ionic', 'firebase'])
             templateUrl: 'templates/create-user.html',
             controller: 'CreateUserCtrl'
         })
+        .state('login', {
+            url: '/login',
+            templateUrl: 'login.html',
+            controller: 'LoginCtrl'
+        })
         $urlRouterProvider.otherwise('/create-user');
 })
 
@@ -115,4 +120,30 @@ angular.module('chuggers', ['ionic', 'firebase'])
 
     } // createUser();
 
+}])
+.controller('LoginCtrl', ['$scope', '$firebaseArray', '$state', function($scope, $firebaseArray, $state) {
+
+    $scope.login = function () {
+        $scope.loginError = false;
+        var email = $scope.email;
+        var password = $scope.password;
+
+        auth.signInWithEmailAndPassword(email, password).then(function(user) {
+            $state.go('tabs.profile');
+        }).catch(function(error){
+            $scope.loginError = true;
+            $scope.loginErrorMessage = error.message;
+        });
+
+        $scope.password = "";
+    }
+}])
+.controller('SignOutCtrl', ['$scope', '$firebaseArray', '$state', function($scope, $firebaseArray, $state) {
+    $scope.signOut = function() {
+        auth.signOut().then(function(){
+            $state.go('login');
+        }, function(error) {
+            console.log("Error : " + error);
+        });
+    }
 }]);

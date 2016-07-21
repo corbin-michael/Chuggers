@@ -32,7 +32,8 @@
         <ion-header-bar class="bar-calm bar bar-header">
             <a href="#/create-user" class="button button-icon icon ion-person-add"></a>
             <h1 class="title">Chugger</h1>
-            <a class="button button-icon icon ion-key"></a>
+            <a ng-controller="SignOutCtrl" ng-click="signOut()"
+            class="button button-icon icon ion-log-out"></a>
         </ion-header-bar>
 
         <ion-nav-view></ion-nav-view>
@@ -70,8 +71,31 @@
                         <div class="padding">
                             <button ng-click="createUser()"
                             class="button button-block button-positive">Create Account</button>
+                            <a href="#/login" class="button button-block button-balanced">Login</a>
                         </div>
                     </div>
+                </ion-content>
+            </ion-view>
+        </script>
+
+        <script id="login.html" type="text/ng-template">
+            <ion-view view-title="Login">
+                <ion-content ng-controller="LoginCtrl">
+                    <p style="color:red;" ng-show="loginError">{{loginErrorMessage}}</p>
+                    <div class="list">
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Email</span>
+                            <input type="text" placeholder="mikehunt@aol.com" ng-model="email">
+                        </label>
+                        <label class="item item-input item-stacked-label">
+                            <span class="input-label">Password</span>
+                            <input type="password" placeholder="........" ng-model="password">
+                        </label>
+
+                        <div class="padding">
+                            <button ng-click="login()"
+                            class="button button-block button-balanced">Login</button>
+                        </div>
                 </ion-content>
             </ion-view>
         </script>
