@@ -57,12 +57,12 @@ angular.module('chuggers', ['ionic', 'firebase'])
                 }
             }
         })
-        .state('tabs.create-user', {
+        .state('create-user', {
             url: '/create-user',
             templateUrl: 'templates/create-user.html',
             controller: 'CreateUserCtrl'
         })
-        $urlRouterProvider.otherwise('/tab/chuggers');
+        $urlRouterProvider.otherwise('/create-user');
 })
 
 .controller('ChuggersCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
@@ -75,4 +75,44 @@ angular.module('chuggers', ['ionic', 'firebase'])
     $http.get('js/data.json').success(function(data) {
         $scope.allUsers = data;
     });
+}])
+.controller('CreateUserCtrl', ['$scope', '$firebaseArray', '$state', function($scope, $firebaseArray, $state) {
+    $scope.checkError = false;
+
+    $scope.createUser = function() {
+        var $firstName = $scope.firstName;
+        var $lastName = $scope.lastName;
+        var $chuggerName = $scope.chuggerName;
+        var $email = $scope.email;
+        var $password = $scope.password;
+
+        auth.createUserWithEmailAndPassword($email, $password).then(function(user) {
+            // On Successful Creation
+            database.ref('/users').child(user.uid).set({
+                first_name      : $firstName,
+                last_name       : $lastName,
+                chugger_name    : $chuggerName,
+                email           : $email
+            });
+
+        }).catch(function(error) {
+            // Error With Creation
+            $scope.checkError = true;
+            $scope.errorCode = error.code;
+            $scope.errorMessage = error.message;
+
+        }); //auth.createUserWithEmailAndPassword
+
+        // clear form value
+        $scope.firstName = "";
+        $scope.lastName = "";
+        $scope.chuggerName = "";
+        $scope.email = "";
+        $scope.password = "";
+
+        // go to profile once logged in
+        $state.go('tabs.profile');
+
+    } // createUser();
+
 }]);
