@@ -3,11 +3,10 @@
         <ion-pane>
             <ion-content class="" ng-controller="ProfileCtrl">
                 <ion-list>
-                    <ion-item class="item-thumbnail-left item-text-wrap" ng-repeat="item in allUsers | limitTo: 1">
+                    <ion-item class="item-thumbnail-left item-text-wrap" ng-repeat="chugger in currentChugger">
                         <img src="http://placehold.it/100x100" alt="photo">
-                        <h2>{{ item.name }}</h2>
-                        <h3>{{ item.reknown }}</h3>
-                        <p>{{ item.bio | limitTo:160 }}{{item.bio.length > 150 ? '...' : '' }}</p>
+                        <h2>{{ chugger.chugger_name }}</h2>
+                        <h3>{{ chugger.first_name + " " + chugger.last_name }}</h3>
                     </ion-item>
                 </ion-list>
             </ion-content>

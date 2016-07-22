@@ -70,16 +70,18 @@ angular.module('chuggers', ['ionic', 'firebase'])
         $urlRouterProvider.otherwise('/create-user');
 })
 
-.controller('ChuggersCtrl', ['$scope', '$http', '$state', function($scope, $http, $state) {
-    $http.get('js/data.json').success(function(data) {
-        $scope.allUsers = data;
-        $scope.whichChugger = $state.params.chuggerId;
-    });
+.controller('ChuggersCtrl', ['$scope', '$http', '$state', '$firebaseArray', function($scope, $http, $state, $firebaseArray) {
+    // get a list of all chuggers
+    var user = auth.currentUser;
+    var allChuggersRef = database.ref().child('users');
+    $scope.allChuggers = $firebaseArray(allChuggersRef);
 }])
-.controller('ProfileCtrl', ['$scope', '$http', function($scope, $http) {
-    $http.get('js/data.json').success(function(data) {
-        $scope.allUsers = data;
-    });
+.controller('ProfileCtrl', ['$scope', '$http', '$firebaseArray', function($scope, $http, $firebaseArray) {
+    // get current users data
+    var user = auth.currentUser;
+    var currentUserRef = database.ref().child('users').child(user.uid);
+    $scope.currentChugger = $firebaseArray(currentUserRef);
+
 }])
 .controller('CreateUserCtrl', ['$scope', '$firebaseArray', '$state', function($scope, $firebaseArray, $state) {
     $scope.checkError = false;
